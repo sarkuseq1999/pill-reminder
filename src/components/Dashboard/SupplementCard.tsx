@@ -10,7 +10,7 @@ interface SupplementCardProps {
 }
 
 export default function SupplementCard({ data, onTap, onViewHistory, onUndoDose, dragHandleProps }: SupplementCardProps) {
-  const { supplement, status, currentPeriod, streak, recentMisses, takenAt } = data;
+  const { supplement, status, currentPeriod, recentMisses, takenAt } = data;
 
   const isTaken = status === 'taken';
   const isNotDue = status === 'not-due';

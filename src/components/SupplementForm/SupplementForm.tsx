@@ -86,7 +86,6 @@ export default function SupplementForm() {
               }`}
               style={{
                 backgroundColor: c,
-                ringColor: color === c ? c : undefined,
               }}
               aria-label={`Select color ${c}`}
             />
@@ -101,7 +100,7 @@ export default function SupplementForm() {
                 ? 'ring-2 ring-offset-2 ring-offset-slate-950 scale-110 border-transparent'
                 : 'border-slate-600 hover:border-slate-400 hover:scale-105'
             }`}
-            style={isCustomColor ? { backgroundColor: color, ringColor: color } : undefined}
+            style={isCustomColor ? { backgroundColor: color } : undefined}
             aria-label="Pick custom color"
           >
             {!isCustomColor && (

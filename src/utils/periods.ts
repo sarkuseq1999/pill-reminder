@@ -1,6 +1,6 @@
 import type { Supplement, Period, DoseLog } from '../types';
 import { PERIOD_WINDOWS } from '../constants';
-import { formatDate, startOfDay, daysBetween, parseDate } from './dates';
+import { formatDate, startOfDay, daysBetween } from './dates';
 
 /** Get all period windows for a supplement on a given date */
 export function getPeriodsForDate(supplement: Supplement, date: Date): Period[] {
@@ -69,15 +69,8 @@ export function getExpectedPeriodKeys(
 
   let current = new Date(createdDay);
 
-  // If the supplement was created partway through a day, skip the creation day
-  // unless the creation time was before the first period window started
-  const createdDate = new Date(supplement.createdAt);
-  const createdHour = createdDate.getHours();
-  const windows = PERIOD_WINDOWS[supplement.frequency.timesPerDay] || PERIOD_WINDOWS[1];
-
   while (current <= targetDay) {
     if (isDoseDay(supplement, current)) {
-      const dateStr = formatDate(current);
       const periods = getPeriodsForDate(supplement, current);
 
       for (const period of periods) {
