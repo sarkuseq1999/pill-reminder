@@ -1,31 +1,17 @@
 export const COLOR_PRESETS = [
-  // Row 1 — vivid
   '#ef4444', // red
   '#f97316', // orange
   '#eab308', // yellow
+  '#84cc16', // lime
   '#22c55e', // green
+  '#14b8a6', // teal
   '#06b6d4', // cyan
   '#3b82f6', // blue
   '#6366f1', // indigo
   '#a855f7', // purple
-  // Row 2 — softer / accent
-  '#f43f5e', // rose
-  '#fb923c', // light orange
-  '#facc15', // gold
-  '#4ade80', // light green
-  '#22d3ee', // light cyan
-  '#60a5fa', // light blue
-  '#818cf8', // light indigo
-  '#c084fc', // light purple
-  // Row 3 — deep / muted
-  '#ec4899', // pink
-  '#e11d48', // crimson
-  '#84cc16', // lime
-  '#14b8a6', // teal
-  '#0ea5e9', // sky
-  '#8b5cf6', // violet
   '#d946ef', // fuchsia
-  '#78716c', // warm gray
+  '#ec4899', // pink
+  '#78716c', // gray
 ] as const;
 
 export const FREQUENCY_PRESETS = [
