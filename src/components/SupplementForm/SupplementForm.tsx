@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import { COLOR_PRESETS } from '../../constants';
+import { useTranslation } from '../../i18n';
 import type { Frequency } from '../../types';
 import FrequencyPicker from './FrequencyPicker';
 
@@ -9,6 +10,7 @@ export default function SupplementForm() {
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const { state, addSupplement, updateSupplement } = useApp();
+  const { t } = useTranslation();
 
   const existing = id ? state.supplements.find(s => s.id === id) : null;
   const isEditing = !!existing;
@@ -48,20 +50,26 @@ export default function SupplementForm() {
 
   const isValid = name.trim().length > 0;
 
+  const frequencyLabel = frequency.everyNDays === 1
+    ? frequency.timesPerDay === 1
+      ? t('card.daily')
+      : t('card.timesDaily', { count: frequency.timesPerDay })
+    : t('card.everyNDays', { count: frequency.everyNDays });
+
   return (
     <form onSubmit={handleSubmit} className="px-5 py-6 space-y-6">
       <h2 className="text-lg font-semibold text-slate-100">
-        {isEditing ? 'Edit Supplement' : 'Add Supplement'}
+        {isEditing ? t('form.editSupplement') : t('form.addSupplement')}
       </h2>
 
       {/* Name */}
       <div>
-        <label className="text-sm text-slate-400 mb-2 block">Name</label>
+        <label className="text-sm text-slate-400 mb-2 block">{t('form.name')}</label>
         <input
           type="text"
           value={name}
           onChange={e => setName(e.target.value)}
-          placeholder="e.g., Vitamin D"
+          placeholder={t('form.namePlaceholder')}
           className="w-full px-4 py-3 rounded-xl bg-slate-900 text-slate-100 text-sm border border-slate-800 focus:border-indigo-500 focus:outline-none placeholder:text-slate-600"
           autoFocus
         />
@@ -72,7 +80,7 @@ export default function SupplementForm() {
 
       {/* Color */}
       <div>
-        <label className="text-sm text-slate-400 mb-2 block">Color</label>
+        <label className="text-sm text-slate-400 mb-2 block">{t('form.color')}</label>
         <div className="flex flex-wrap gap-2.5">
           {COLOR_PRESETS.map(c => (
             <button
@@ -87,7 +95,7 @@ export default function SupplementForm() {
               style={{
                 backgroundColor: c,
               }}
-              aria-label={`Select color ${c}`}
+              aria-label={t('form.selectColor', { color: c })}
             />
           ))}
 
@@ -101,7 +109,7 @@ export default function SupplementForm() {
                 : 'border-slate-600 hover:border-slate-400 hover:scale-105'
             }`}
             style={isCustomColor ? { backgroundColor: color } : undefined}
-            aria-label="Pick custom color"
+            aria-label={t('form.pickCustomColor')}
           >
             {!isCustomColor && (
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="text-slate-500">
@@ -131,14 +139,10 @@ export default function SupplementForm() {
         }}
       >
         <h3 className="font-semibold text-slate-100 text-sm">
-          {name.trim() || 'Supplement Name'}
+          {name.trim() || t('form.supplementName')}
         </h3>
         <p className="text-xs text-slate-400 mt-0.5">
-          {frequency.everyNDays === 1
-            ? frequency.timesPerDay === 1
-              ? 'Daily'
-              : `${frequency.timesPerDay}x daily`
-            : `Every ${frequency.everyNDays} days`}
+          {frequencyLabel}
         </p>
       </div>
 
@@ -152,7 +156,7 @@ export default function SupplementForm() {
             : 'bg-slate-800 text-slate-600 cursor-not-allowed'
         }`}
       >
-        {isEditing ? 'Save Changes' : 'Add Supplement'}
+        {isEditing ? t('form.saveChanges') : t('form.addSupplement')}
       </button>
     </form>
   );

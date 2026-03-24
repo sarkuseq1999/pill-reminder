@@ -1,3 +1,5 @@
+import { useTranslation } from '../../i18n';
+
 interface StatsSummaryProps {
   startedDate: string;
   totalExpected: number;
@@ -15,6 +17,7 @@ export default function StatsSummary({
   currentStreak,
   bestStreak,
 }: StatsSummaryProps) {
+  const { t } = useTranslation();
   const completionRate = totalExpected > 0
     ? Math.round((totalTaken / totalExpected) * 100)
     : 0;
@@ -23,13 +26,13 @@ export default function StatsSummary({
     <div className="space-y-4">
       {/* Started date */}
       <p className="text-xs text-slate-500">
-        Tracking since {startedDate}
+        {t('stats.trackingSince', { date: startedDate })}
       </p>
 
       {/* Completion rate bar */}
       <div>
         <div className="flex justify-between items-end mb-1.5">
-          <span className="text-sm text-slate-400">Completion</span>
+          <span className="text-sm text-slate-400">{t('stats.completion')}</span>
           <span className="text-xl font-bold text-slate-100">{completionRate}%</span>
         </div>
         <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
@@ -45,10 +48,10 @@ export default function StatsSummary({
 
       {/* Stats grid */}
       <div className="grid grid-cols-2 gap-3">
-        <StatBox label="Current streak" value={`${currentStreak}`} unit="days" />
-        <StatBox label="Best streak" value={`${bestStreak}`} unit="days" />
-        <StatBox label="Doses taken" value={`${totalTaken}`} />
-        <StatBox label="Doses missed" value={`${totalMissed}`} highlight={totalMissed > 0} />
+        <StatBox label={t('stats.currentStreak')} value={`${currentStreak}`} unit={t('stats.days')} />
+        <StatBox label={t('stats.bestStreak')} value={`${bestStreak}`} unit={t('stats.days')} />
+        <StatBox label={t('stats.dosesTaken')} value={`${totalTaken}`} />
+        <StatBox label={t('stats.dosesMissed')} value={`${totalMissed}`} highlight={totalMissed > 0} />
       </div>
     </div>
   );

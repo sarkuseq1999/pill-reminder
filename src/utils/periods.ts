@@ -20,7 +20,7 @@ export function getPeriodsForDate(supplement: Supplement, date: Date): Period[] 
 
     return {
       key,
-      label: w.label,
+      label: w.labelKey,
       startMs: start.getTime(),
       endMs: end.getTime(),
     };

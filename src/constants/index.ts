@@ -1,3 +1,5 @@
+import type { TranslationKey } from '../i18n';
+
 export const COLOR_PRESETS = [
   '#ef4444', // red
   '#f97316', // orange
@@ -14,11 +16,11 @@ export const COLOR_PRESETS = [
   '#78716c', // gray
 ] as const;
 
-export const FREQUENCY_PRESETS = [
-  { label: 'Every day', everyNDays: 1 },
-  { label: 'Every other day', everyNDays: 2 },
-  { label: 'Custom', everyNDays: -1 }, // sentinel for custom input
-] as const;
+export const FREQUENCY_PRESETS: { labelKey: TranslationKey; everyNDays: number }[] = [
+  { labelKey: 'freq.everyDay', everyNDays: 1 },
+  { labelKey: 'freq.everyOtherDay', everyNDays: 2 },
+  { labelKey: 'freq.custom', everyNDays: -1 }, // sentinel for custom input
+];
 
 export const TIMES_PER_DAY_OPTIONS = [
   { label: '1x', value: 1 },
@@ -27,16 +29,16 @@ export const TIMES_PER_DAY_OPTIONS = [
 ] as const;
 
 /** Period window boundaries for multi-dose days (hours of day) */
-export const PERIOD_WINDOWS: Record<number, { label: string; startHour: number; endHour: number }[]> = {
-  1: [{ label: 'Daily', startHour: 0, endHour: 24 }],
+export const PERIOD_WINDOWS: Record<number, { labelKey: TranslationKey; startHour: number; endHour: number }[]> = {
+  1: [{ labelKey: 'period.daily', startHour: 0, endHour: 24 }],
   2: [
-    { label: 'Morning', startHour: 0, endHour: 12 },
-    { label: 'Evening', startHour: 12, endHour: 24 },
+    { labelKey: 'period.morning', startHour: 0, endHour: 12 },
+    { labelKey: 'period.evening', startHour: 12, endHour: 24 },
   ],
   3: [
-    { label: 'Morning', startHour: 0, endHour: 8 },
-    { label: 'Afternoon', startHour: 8, endHour: 16 },
-    { label: 'Evening', startHour: 16, endHour: 24 },
+    { labelKey: 'period.morning', startHour: 0, endHour: 8 },
+    { labelKey: 'period.afternoon', startHour: 8, endHour: 16 },
+    { labelKey: 'period.evening', startHour: 16, endHour: 24 },
   ],
 };
 

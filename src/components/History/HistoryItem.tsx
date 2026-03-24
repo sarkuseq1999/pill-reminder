@@ -1,3 +1,4 @@
+import { useTranslation } from '../../i18n';
 import { formatTime } from '../../utils/dates';
 
 interface HistoryItemProps {
@@ -8,6 +9,8 @@ interface HistoryItemProps {
 }
 
 export default function HistoryItem({ date, taken, timestamp, periodLabel }: HistoryItemProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="flex items-center gap-3 py-3 border-b border-slate-800/30 last:border-b-0">
       {/* Status icon */}
@@ -35,7 +38,7 @@ export default function HistoryItem({ date, taken, timestamp, periodLabel }: His
 
       {/* Time or missed label */}
       <span className={`text-xs ${taken ? 'text-slate-500' : 'text-red-400/70'}`}>
-        {taken && timestamp ? formatTime(timestamp) : taken ? 'Taken' : 'Missed'}
+        {taken && timestamp ? formatTime(timestamp) : taken ? t('historyItem.taken') : t('historyItem.missed')}
       </span>
     </div>
   );

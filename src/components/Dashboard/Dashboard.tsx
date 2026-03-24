@@ -19,6 +19,7 @@ import { getActivePeriod, isDoseDay, getMissedPeriodKeys } from '../../utils/per
 import { calculateStreaks } from '../../utils/streaks';
 import { formatDate, parseDate } from '../../utils/dates';
 import { MISSED_DISPLAY_DAYS } from '../../constants';
+import { useTranslation } from '../../i18n';
 import type { SupplementWithStatus } from '../../types';
 import SortableSupplementCard from './SortableSupplementCard';
 import Toast from '../Toast';
@@ -26,6 +27,7 @@ import Toast from '../Toast';
 export default function Dashboard() {
   const { state, logDose, undoDose, reorderSupplements } = useApp();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [toast, setToast] = useState({ visible: false, message: '' });
 
   const now = useMemo(() => new Date(), [state.currentDate]);
@@ -103,14 +105,14 @@ export default function Dashboard() {
   const handleTap = useCallback(async (supplementId: string, periodKey: string) => {
     const supp = state.supplements.find(s => s.id === supplementId);
     await logDose(supplementId, periodKey);
-    setToast({ visible: true, message: `${supp?.name || 'Supplement'} marked as taken` });
-  }, [logDose, state.supplements]);
+    setToast({ visible: true, message: t('dashboard.markedAsTaken', { name: supp?.name || 'Supplement' }) });
+  }, [logDose, state.supplements, t]);
 
   const handleUndoDose = useCallback(async (supplementId: string, periodKey: string) => {
     const supp = state.supplements.find(s => s.id === supplementId);
     await undoDose(supplementId, periodKey);
-    setToast({ visible: true, message: `${supp?.name || 'Supplement'} reset to untaken` });
-  }, [undoDose, state.supplements]);
+    setToast({ visible: true, message: t('dashboard.resetToUntaken', { name: supp?.name || 'Supplement' }) });
+  }, [undoDose, state.supplements, t]);
 
   const handleViewHistory = useCallback((supplementId: string) => {
     navigate(`/history/${supplementId}`);
@@ -131,13 +133,13 @@ export default function Dashboard() {
       {supplementsWithStatus.length === 0 ? (
         <div className="text-center py-20">
           <div className="text-5xl mb-4 opacity-50">💊</div>
-          <h2 className="text-lg font-semibold text-slate-300 mb-2">No supplements yet</h2>
-          <p className="text-slate-500 text-sm mb-6">Add your first supplement to start tracking.</p>
+          <h2 className="text-lg font-semibold text-slate-300 mb-2">{t('dashboard.noSupplements')}</h2>
+          <p className="text-slate-500 text-sm mb-6">{t('dashboard.addFirst')}</p>
           <button
             onClick={() => navigate('/setup')}
             className="px-6 py-2.5 rounded-xl bg-indigo-600 text-white font-medium text-sm hover:bg-indigo-500 transition-colors"
           >
-            Add Supplement
+            {t('dashboard.addSupplement')}
           </button>
         </div>
       ) : (
@@ -165,7 +167,7 @@ export default function Dashboard() {
                 onClick={() => navigate('/edit')}
                 className="w-full py-3 rounded-2xl border-2 border-dashed border-slate-800 text-slate-500 text-sm font-medium hover:border-slate-700 hover:text-slate-400 transition-colors"
               >
-                + Add supplement
+                {t('dashboard.addSupplementShort')}
               </button>
             </div>
           </SortableContext>

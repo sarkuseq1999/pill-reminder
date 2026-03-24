@@ -1,4 +1,6 @@
 import type { SupplementWithStatus } from '../../types';
+import type { TranslationKey } from '../../i18n';
+import { useTranslation } from '../../i18n';
 import { formatTime, formatDateShort } from '../../utils/dates';
 
 interface SupplementCardProps {
@@ -11,14 +13,15 @@ interface SupplementCardProps {
 
 export default function SupplementCard({ data, onTap, onViewHistory, onUndoDose, dragHandleProps }: SupplementCardProps) {
   const { supplement, status, currentPeriod, recentMisses, takenAt } = data;
+  const { t } = useTranslation();
 
   const isTaken = status === 'taken';
   const isNotDue = status === 'not-due';
   const isActive = status === 'active';
 
   const frequencyLabel = supplement.frequency.everyNDays === 1
-    ? (supplement.frequency.timesPerDay === 1 ? 'Daily' : `${supplement.frequency.timesPerDay}x daily`)
-    : `Every ${supplement.frequency.everyNDays} days`;
+    ? (supplement.frequency.timesPerDay === 1 ? t('card.daily') : t('card.timesDaily', { count: supplement.frequency.timesPerDay }))
+    : t('card.everyNDays', { count: supplement.frequency.everyNDays });
 
   const handleCardClick = () => {
     if (isActive && currentPeriod) {
@@ -49,7 +52,7 @@ export default function SupplementCard({ data, onTap, onViewHistory, onUndoDose,
             isTaken || isNotDue ? 'text-slate-700' : 'text-slate-500'
           }`}
           onClick={(e) => e.stopPropagation()}
-          aria-label="Drag to reorder"
+          aria-label={t('card.dragToReorder')}
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <circle cx="9" cy="6" r="1.5" />
@@ -77,21 +80,21 @@ export default function SupplementCard({ data, onTap, onViewHistory, onUndoDose,
             }`}>
               {frequencyLabel}
               {currentPeriod && supplement.frequency.timesPerDay > 1 && (
-                <span> &middot; {currentPeriod.label}</span>
+                <span> &middot; {t(currentPeriod.label as TranslationKey)}</span>
               )}
             </p>
 
             {/* Taken timestamp */}
             {isTaken && takenAt && (
               <p className="text-xs text-slate-500 mt-1">
-                Taken at {formatTime(takenAt)}
+                {t('card.takenAt', { time: formatTime(takenAt) })}
               </p>
             )}
 
             {/* Not due today */}
             {isNotDue && (
               <p className="text-xs text-slate-600 mt-1">
-                Not due today
+                {t('card.notDueToday')}
               </p>
             )}
 
@@ -103,7 +106,7 @@ export default function SupplementCard({ data, onTap, onViewHistory, onUndoDose,
                     key={date}
                     className="text-xs px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400"
                   >
-                    Missed {formatDateShort(date)}
+                    {t('card.missed', { date: formatDateShort(date) })}
                   </span>
                 ))}
               </div>
@@ -122,9 +125,9 @@ export default function SupplementCard({ data, onTap, onViewHistory, onUndoDose,
                   ? 'bg-slate-800 text-slate-500 hover:text-slate-300 hover:bg-slate-700'
                   : 'bg-white/10 text-slate-300 hover:text-slate-100 hover:bg-white/15'
               }`}
-              aria-label={`View ${supplement.name} history`}
+              aria-label={t('card.viewHistory', { name: supplement.name })}
             >
-              History
+              {t('card.history')}
             </button>
 
             {/* Undo / Refresh button — only when taken */}
@@ -135,9 +138,9 @@ export default function SupplementCard({ data, onTap, onViewHistory, onUndoDose,
                   onUndoDose(supplement.id, currentPeriod.key);
                 }}
                 className="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors bg-slate-800 text-amber-400 hover:text-amber-300 hover:bg-slate-700"
-                aria-label={`Undo ${supplement.name} dose`}
+                aria-label={t('card.undoDose', { name: supplement.name })}
               >
-                Refresh
+                {t('card.refresh')}
               </button>
             )}
           </div>

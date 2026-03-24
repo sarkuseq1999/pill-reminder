@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { TIMES_PER_DAY_OPTIONS, FREQUENCY_PRESETS } from '../../constants';
+import { useTranslation } from '../../i18n';
 import type { Frequency } from '../../types';
 
 interface FrequencyPickerProps {
@@ -8,6 +9,7 @@ interface FrequencyPickerProps {
 }
 
 export default function FrequencyPicker({ value, onChange }: FrequencyPickerProps) {
+  const { t } = useTranslation();
   const [showCustom, setShowCustom] = useState(
     value.everyNDays > 2 || !FREQUENCY_PRESETS.some(p => p.everyNDays === value.everyNDays)
   );
@@ -28,7 +30,7 @@ export default function FrequencyPicker({ value, onChange }: FrequencyPickerProp
     <div className="space-y-4">
       {/* Times per day */}
       <div>
-        <label className="text-sm text-slate-400 mb-2 block">Doses per day</label>
+        <label className="text-sm text-slate-400 mb-2 block">{t('freq.dosesPerDay')}</label>
         <div className="flex gap-2">
           {TIMES_PER_DAY_OPTIONS.map(opt => (
             <button
@@ -52,11 +54,11 @@ export default function FrequencyPicker({ value, onChange }: FrequencyPickerProp
 
       {/* How often */}
       <div>
-        <label className="text-sm text-slate-400 mb-2 block">How often</label>
+        <label className="text-sm text-slate-400 mb-2 block">{t('freq.howOften')}</label>
         <div className="flex gap-2">
           {FREQUENCY_PRESETS.map(preset => (
             <button
-              key={preset.label}
+              key={preset.labelKey}
               type="button"
               onClick={() => {
                 if (preset.everyNDays === -1) {
@@ -75,7 +77,7 @@ export default function FrequencyPicker({ value, onChange }: FrequencyPickerProp
                   : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
               }`}
             >
-              {preset.label}
+              {t(preset.labelKey)}
             </button>
           ))}
         </div>
@@ -83,7 +85,7 @@ export default function FrequencyPicker({ value, onChange }: FrequencyPickerProp
         {/* Custom days input */}
         {showCustom && (
           <div className="flex items-center gap-3 mt-3">
-            <span className="text-sm text-slate-400">Every</span>
+            <span className="text-sm text-slate-400">{t('freq.every')}</span>
             <input
               type="number"
               min="2"
@@ -99,7 +101,7 @@ export default function FrequencyPicker({ value, onChange }: FrequencyPickerProp
               className="w-20 px-3 py-2 rounded-xl bg-slate-800 text-slate-100 text-sm text-center border border-slate-700 focus:border-indigo-500 focus:outline-none"
               placeholder="7"
             />
-            <span className="text-sm text-slate-400">days</span>
+            <span className="text-sm text-slate-400">{t('freq.days')}</span>
           </div>
         )}
       </div>
