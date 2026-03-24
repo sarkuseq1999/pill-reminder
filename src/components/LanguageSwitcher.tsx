@@ -24,7 +24,7 @@ export default function LanguageSwitcher() {
         className="text-slate-400 hover:text-slate-200 transition-colors px-1.5 py-1 text-xs font-bold tracking-wide"
         aria-label={t('layout.switchLanguage')}
       >
-        {LANGUAGES.find(l => l.code === language)?.short ?? 'EN'}
+        {LANGUAGES.find(l => l.code === language)?.label ?? 'English'}
       </button>
 
       {open && (
