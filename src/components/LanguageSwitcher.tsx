@@ -21,14 +21,10 @@ export default function LanguageSwitcher() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(o => !o)}
-        className="text-slate-400 hover:text-slate-200 transition-colors p-1"
+        className="text-slate-400 hover:text-slate-200 transition-colors px-1.5 py-1 text-xs font-bold tracking-wide"
         aria-label={t('layout.switchLanguage')}
       >
-        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <circle cx="12" cy="12" r="10" />
-          <path strokeLinecap="round" d="M2 12h20" />
-          <path strokeLinecap="round" d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
-        </svg>
+        {LANGUAGES.find(l => l.code === language)?.short ?? 'EN'}
       </button>
 
       {open && (

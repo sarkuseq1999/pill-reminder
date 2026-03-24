@@ -7,12 +7,12 @@ import es from './translations/es';
 
 export type Language = 'en' | 'zh' | 'ja' | 'ko' | 'es';
 
-export const LANGUAGES: { code: Language; label: string }[] = [
-  { code: 'en', label: 'English' },
-  { code: 'zh', label: '中文' },
-  { code: 'ja', label: '日本語' },
-  { code: 'ko', label: '한국어' },
-  { code: 'es', label: 'Español' },
+export const LANGUAGES: { code: Language; label: string; short: string }[] = [
+  { code: 'en', label: 'English', short: 'EN' },
+  { code: 'zh', label: '中文', short: 'CN' },
+  { code: 'ja', label: '日本語', short: 'JP' },
+  { code: 'ko', label: '한국어', short: 'KR' },
+  { code: 'es', label: 'Español', short: 'ES' },
 ];
 
 const translations: Record<Language, Record<TranslationKey, string>> = {
